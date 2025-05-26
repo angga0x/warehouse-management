@@ -18,28 +18,28 @@ export default function Dashboard() {
     <div className="min-h-full">
       <Sidebar />
       
-      <div className="md:pl-64 pl-0">
-        {/* Top Bar */}
+      <div className="lg:pl-64">
+        {/* Header */}
         <div className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
-          <div className="flex h-16 items-center justify-between px-4 md:px-6">
-            <div className="flex-1 min-w-0">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-900 truncate">Dashboard</h2>
-              <p className="text-xs md:text-sm text-gray-500 truncate">Selamat datang kembali, {user?.name}!</p>
+          <div className="flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between px-12 sm:px-6 py-4 sm:py-0 gap-3 sm:gap-0">
+            <div className="text-center sm:text-left w-full sm:w-auto">
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-900">Dashboard</h2>
+              <p className="text-sm text-gray-500">Selamat datang kembali, {user?.username}!</p>
             </div>
-            <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="flex items-center space-x-2 w-full sm:w-auto justify-center sm:justify-end">
               {/* Notification Bell */}
               <Button variant="ghost" size="icon" className="relative text-gray-400 hover:text-gray-500">
-                <Bell className="h-4 w-4 md:h-5 md:w-5" />
+                <Bell className="h-4 w-4" />
                 <span className="absolute top-0 right-0 block h-2 w-2 bg-red-500 rounded-full ring-2 ring-white"></span>
               </Button>
               
               {/* Quick Actions */}
               <Button 
                 onClick={() => setIsTransactionModalOpen(true)}
-                className="bg-primary-500 hover:bg-primary-600 text-white"
+                className="bg-primary-500 hover:bg-primary-600 text-white flex-1 sm:flex-none"
                 size="sm"
               >
-                <Plus className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
+                <Plus className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Transaksi Baru</span>
                 <span className="sm:hidden">Transaksi</span>
               </Button>

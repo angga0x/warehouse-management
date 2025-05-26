@@ -24,16 +24,16 @@ export default function Analytics() {
     <div className="min-h-full">
       <Sidebar />
       
-      <div className="md:pl-64 pl-0">
+      <div className="lg:pl-64">
         {/* Header */}
         <div className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
-          <div className="flex h-16 items-center justify-between px-4 md:px-6">
-            <div className="flex-1 min-w-0">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-900 truncate">Analisis AI</h2>
-              <p className="text-xs md:text-sm text-gray-500 truncate">Insight dan rekomendasi berbasis AI untuk optimasi gudang</p>
+          <div className="flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between px-12 sm:px-6 py-4 sm:py-0 gap-3 sm:gap-0">
+            <div className="text-center sm:text-left w-full sm:w-auto">
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-900">Analisis AI</h2>
+              <p className="text-sm text-gray-500">Insight dan rekomendasi berbasis AI untuk optimasi gudang</p>
             </div>
-            <Button onClick={refreshAnalytics} variant="outline" size="sm" className="ml-4 flex-shrink-0">
-              <RefreshCw className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
+            <Button onClick={refreshAnalytics} variant="outline" size="sm" className="w-full sm:w-auto">
+              <RefreshCw className="mr-2 h-4 w-4" />
               <span className="hidden sm:inline">Perbarui Analisis</span>
               <span className="sm:hidden">Perbarui</span>
             </Button>
