@@ -130,8 +130,8 @@ export function Sidebar() {
     return (
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="sm" className="fixed top-4 left-4 z-50 md:hidden">
-            <Menu className="h-5 w-5" />
+          <Button variant="ghost" size="sm" className="fixed top-2 left-2 z-50 md:hidden p-2 h-8 w-8">
+            <Menu className="h-4 w-4" />
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-64 p-0">

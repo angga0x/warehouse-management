@@ -260,33 +260,42 @@ export default function Settings() {
     <div className="min-h-full">
       <Sidebar />
       
-      <div className="pl-64">
-        <div className="p-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Pengaturan Sistem</h1>
-            <p className="text-gray-600">Kelola pengaturan aplikasi dan profil pengguna</p>
+      <div className="lg:pl-64">
+        {/* Header */}
+        <div className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between px-4 sm:px-6 py-4 sm:py-0 gap-3 sm:gap-0">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Pengaturan Sistem</h2>
+              <p className="text-sm text-gray-500">Kelola pengaturan aplikasi dan profil pengguna</p>
+            </div>
           </div>
+        </div>
 
-          <Tabs defaultValue="categories" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="categories" className="flex items-center">
-                <Tag className="mr-2 h-4 w-4" />
-                Kategori Produk
+        {/* Content */}
+        <main className="p-3 sm:p-6">
+          <Tabs defaultValue="categories" className="space-y-4 sm:space-y-6">
+            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto sm:h-10">
+              <TabsTrigger value="categories" className="flex items-center justify-center py-2 text-xs sm:text-sm">
+                <Tag className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Kategori Produk</span>
+                <span className="sm:hidden">Kategori</span>
               </TabsTrigger>
-              <TabsTrigger value="profile" className="flex items-center">
-                <Users className="mr-2 h-4 w-4" />
-                Profil Pengguna
+              <TabsTrigger value="profile" className="flex items-center justify-center py-2 text-xs sm:text-sm">
+                <Users className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Profil Pengguna</span>
+                <span className="sm:hidden">Profil</span>
               </TabsTrigger>
-              <TabsTrigger value="system" className="flex items-center">
-                <Building2 className="mr-2 h-4 w-4" />
-                Sistem
+              <TabsTrigger value="system" className="flex items-center justify-center py-2 text-xs sm:text-sm">
+                <Building2 className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Sistem</span>
+                <span className="sm:hidden">Sistem</span>
               </TabsTrigger>
             </TabsList>
 
             {/* Categories Tab */}
             <TabsContent value="categories">
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
+                <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
                   <CardTitle>Manajemen Kategori Produk</CardTitle>
                   <Button 
                     onClick={() => {
@@ -294,6 +303,7 @@ export default function Settings() {
                       categoryForm.reset();
                       setIsCategoryFormOpen(true);
                     }}
+                    className="w-full sm:w-auto"
                   >
                     <Plus className="mr-2 h-4 w-4" />
                     Tambah Kategori
@@ -607,7 +617,7 @@ export default function Settings() {
               </div>
             </TabsContent>
           </Tabs>
-        </div>
+        </main>
       </div>
 
       {/* Category Form Dialog */}
