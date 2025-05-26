@@ -81,6 +81,12 @@ export default function Products() {
     setEditingProduct(null);
   };
 
+  const handleCloseVariationForm = () => {
+    setIsVariationFormOpen(false);
+    setEditingVariation(null);
+    setSelectedProductId(null);
+  };
+
   return (
     <div className="min-h-full">
       <Sidebar />
@@ -161,7 +167,29 @@ export default function Products() {
                           <TableCell className="font-medium">{product.name}</TableCell>
                           <TableCell className="font-mono text-sm">{product.sku}</TableCell>
                           <TableCell>{product.category?.name || "Uncategorized"}</TableCell>
-                          <TableCell>{productVariations.length} variasi</TableCell>
+                          <TableCell>
+                            {productVariations.length > 0 ? (
+                              <div className="space-y-1">
+                                {productVariations.slice(0, 2).map((variation: any) => (
+                                  <div key={variation.id} className="text-xs bg-gray-50 rounded px-2 py-1">
+                                    <span className="font-medium">
+                                      {variation.color} {variation.size}
+                                    </span>
+                                    <span className="ml-2 text-gray-600">
+                                      Stok: {variation.stock}
+                                    </span>
+                                  </div>
+                                ))}
+                                {productVariations.length > 2 && (
+                                  <div className="text-xs text-gray-500">
+                                    +{productVariations.length - 2} variasi lainnya
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              <span className="text-gray-500 text-sm">Belum ada variasi</span>
+                            )}
+                          </TableCell>
                           <TableCell>{totalStock} unit</TableCell>
                           <TableCell>
                             {lowStockVariations.length > 0 ? (
@@ -178,6 +206,17 @@ export default function Products() {
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex justify-end space-x-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedProductId(product.id);
+                                  setIsVariationFormOpen(true);
+                                }}
+                                title="Kelola Variasi"
+                              >
+                                <Settings className="h-4 w-4" />
+                              </Button>
                               <Button
                                 variant="outline"
                                 size="sm"
@@ -221,6 +260,17 @@ export default function Products() {
           />
         </DialogContent>
       </Dialog>
+
+      {/* Variation Form Dialog */}
+      {selectedProductId && (
+        <VariationForm
+          variation={editingVariation}
+          productId={selectedProductId}
+          isOpen={isVariationFormOpen}
+          onClose={handleCloseVariationForm}
+          onSuccess={handleCloseVariationForm}
+        />
+      )}
     </div>
   );
 }

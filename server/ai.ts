@@ -84,16 +84,16 @@ export async function generateRestockRecommendations(lowStockItems: any[]): Prom
     const model = await getOpenAIModel();
     
     const prompt = `
-    Analyze these low stock items and provide restock recommendations:
+    Analisis item stok rendah berikut dan berikan rekomendasi restock:
     
     Low Stock Items: ${JSON.stringify(lowStockItems)}
     
-    Please provide a JSON response with the following structure:
+    Mohon berikan respons JSON dengan struktur berikut:
     {
-      "urgentItems": [items that need immediate restocking],
-      "mediumPriority": [items that need restocking soon],
-      "recommendations": [specific recommendations for each category],
-      "totalEstimatedCost": [estimated total cost for restocking all items]
+      "urgentItems": [item yang perlu direstock segera],
+      "mediumPriority": [item yang perlu direstock dalam waktu dekat],
+      "recommendations": [rekomendasi spesifik untuk setiap kategori dalam bahasa Indonesia],
+      "totalEstimatedCost": [estimasi total biaya untuk restock semua item]
     }
     `;
 
