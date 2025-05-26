@@ -139,7 +139,7 @@ export default function Analytics() {
                     <div>
                       <h3 className="font-medium text-gray-900 mb-3 flex items-center">
                         <AlertTriangle className="mr-2 h-4 w-4 text-red-500" />
-                        Urgent Restock
+                        Restock Mendesak
                       </h3>
                       {restock?.urgentItems?.length > 0 ? (
                         <div className="space-y-2">
@@ -149,12 +149,12 @@ export default function Analytics() {
                                 <span className="font-medium text-red-900">{item.product?.name || `Item ${index + 1}`}</span>
                                 <p className="text-sm text-red-600">{item.color} {item.size}</p>
                               </div>
-                              <Badge variant="destructive">{item.stock} left</Badge>
+                              <Badge variant="destructive">{item.stock} tersisa</Badge>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-sm text-gray-500">No urgent restock items</p>
+                        <p className="text-sm text-gray-500">Tidak ada item restock mendesak</p>
                       )}
                     </div>
 
@@ -162,7 +162,7 @@ export default function Analytics() {
                     <div>
                       <h3 className="font-medium text-gray-900 mb-3 flex items-center">
                         <AlertTriangle className="mr-2 h-4 w-4 text-orange-500" />
-                        Medium Priority
+                        Prioritas Sedang
                       </h3>
                       {restock?.mediumPriority?.length > 0 ? (
                         <div className="space-y-2">
@@ -172,18 +172,18 @@ export default function Analytics() {
                                 <span className="font-medium text-orange-900">{item.product?.name || `Item ${index + 1}`}</span>
                                 <p className="text-sm text-orange-600">{item.color} {item.size}</p>
                               </div>
-                              <Badge className="bg-orange-100 text-orange-800">{item.stock} left</Badge>
+                              <Badge className="bg-orange-100 text-orange-800">{item.stock} tersisa</Badge>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-sm text-gray-500">No medium priority items</p>
+                        <p className="text-sm text-gray-500">Tidak ada item prioritas sedang</p>
                       )}
                     </div>
 
                     {/* Recommendations */}
                     <div>
-                      <h3 className="font-medium text-gray-900 mb-3">AI Recommendations</h3>
+                      <h3 className="font-medium text-gray-900 mb-3">Rekomendasi AI</h3>
                       {restock?.recommendations?.length > 0 ? (
                         <ul className="space-y-2">
                           {restock.recommendations.map((recommendation: string, index: number) => (
@@ -194,14 +194,14 @@ export default function Analytics() {
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-sm text-gray-500">No recommendations available</p>
+                        <p className="text-sm text-gray-500">Tidak ada rekomendasi tersedia</p>
                       )}
                     </div>
 
                     {/* Estimated Cost */}
                     {restock?.totalEstimatedCost > 0 && (
                       <div className="bg-blue-50 p-4 rounded-lg">
-                        <h4 className="font-medium text-blue-900 mb-1">Estimated Restock Cost</h4>
+                        <h4 className="font-medium text-blue-900 mb-1">Estimasi Biaya Restock</h4>
                         <p className="text-2xl font-bold text-blue-700">
                           Rp {restock.totalEstimatedCost.toLocaleString()}
                         </p>
@@ -219,7 +219,7 @@ export default function Analytics() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Brain className="mr-2 h-5 w-5 text-purple-500" />
-                  Performance Recommendations
+                  Rekomendasi Performa
                 </CardTitle>
               </CardHeader>
               <CardContent>
