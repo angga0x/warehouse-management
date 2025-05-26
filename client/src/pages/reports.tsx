@@ -126,9 +126,9 @@ export default function Reports() {
       <div className="lg:pl-64">
         {/* Header */}
         <div className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
-          <div className="flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between px-4 sm:px-6 py-4 sm:py-0 gap-3 sm:gap-0">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Laporan Excel</h2>
+          <div className="flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between px-12 sm:px-6 py-4 sm:py-0 gap-3 sm:gap-0">
+            <div className="text-center sm:text-left w-full sm:w-auto">
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-900">Laporan Excel</h2>
               <p className="text-sm text-gray-500">Generate dan download laporan transaksi dalam format Excel</p>
             </div>
           </div>
