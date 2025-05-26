@@ -48,6 +48,9 @@ export interface IStorage {
   // Top products
   getTopProducts(limit: number): Promise<{ productId: number; productName: string; category: string; totalSold: number }[]>;
 
+  // Chart data
+  getStockMovementChart(): Promise<{ date: string; stockIn: number; stockOut: number }[]>;
+
   // System settings
   getSystemSetting(key: string): Promise<SystemSetting | undefined>;
   setSystemSetting(key: string, value: string): Promise<SystemSetting>;
@@ -388,6 +391,50 @@ export class DatabaseStorage implements IStorage {
       .groupBy(products.id, products.name, categories.name)
       .orderBy(desc(sql`coalesce(sum(${transactions.quantity}), 0)`))
       .limit(limit);
+  }
+
+  async getStockMovementChart(): Promise<{ date: string; stockIn: number; stockOut: number }[]> {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+
+    const chartData = [];
+    
+    for (let i = 0; i < 7; i++) {
+      const currentDate = new Date(sevenDaysAgo);
+      currentDate.setDate(currentDate.getDate() + i);
+      const nextDate = new Date(currentDate);
+      nextDate.setDate(nextDate.getDate() + 1);
+
+      const [stockInResult] = await db
+        .select({ total: sql<number>`coalesce(sum(${transactions.quantity}), 0)` })
+        .from(transactions)
+        .where(and(
+          eq(transactions.type, "in"),
+          gte(transactions.createdAt, currentDate),
+          lte(transactions.createdAt, nextDate)
+        ));
+
+      const [stockOutResult] = await db
+        .select({ total: sql<number>`coalesce(sum(${transactions.quantity}), 0)` })
+        .from(transactions)
+        .where(and(
+          eq(transactions.type, "out"),
+          gte(transactions.createdAt, currentDate),
+          lte(transactions.createdAt, nextDate)
+        ));
+
+      const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+      const dayName = dayNames[currentDate.getDay()];
+
+      chartData.push({
+        date: dayName,
+        stockIn: stockInResult?.total || 0,
+        stockOut: stockOutResult?.total || 0,
+      });
+    }
+
+    return chartData;
   }
 
   async getSystemSetting(key: string): Promise<SystemSetting | undefined> {

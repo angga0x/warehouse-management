@@ -196,6 +196,15 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  app.get("/api/dashboard/chart", async (req, res) => {
+    try {
+      const chartData = await storage.getStockMovementChart();
+      res.json(chartData);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch chart data" });
+    }
+  });
+
   // Excel reports
   app.get("/api/reports/excel", async (req, res) => {
     try {

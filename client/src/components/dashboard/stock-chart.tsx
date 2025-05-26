@@ -2,29 +2,42 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export function StockChart() {
   const [viewType, setViewType] = useState<"in" | "out" | "both">("both");
   
-  // For demo purposes, we'll use mock data
-  // In a real app, this would fetch actual chart data from the API
-  const mockChartData = [
-    { day: "Sen", stockIn: 120, stockOut: 80 },
-    { day: "Sel", stockIn: 150, stockOut: 90 },
-    { day: "Rab", stockIn: 100, stockOut: 110 },
-    { day: "Kam", stockIn: 180, stockOut: 70 },
-    { day: "Jum", stockIn: 140, stockOut: 95 },
-    { day: "Sab", stockIn: 110, stockOut: 60 },
-    { day: "Min", stockIn: 90, stockOut: 45 },
-  ];
+  const { data: chartData, isLoading } = useQuery({
+    queryKey: ["/api/dashboard/chart"],
+  });
 
   const getBarHeight = (value: number, max: number) => {
-    return Math.max(20, (value / max) * 200);
+    return Math.max(20, (value / max) * 180);
   };
 
-  const maxValue = Math.max(
-    ...mockChartData.flatMap(d => [d.stockIn, d.stockOut])
-  );
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900">
+            Pergerakan Stok (7 Hari Terakhir)
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-64 flex items-center justify-center">
+            <div className="text-center">
+              <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 text-gray-400" />
+              <p className="text-sm text-gray-500">Memuat data chart...</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const maxValue = chartData && chartData.length > 0 
+    ? Math.max(...chartData.flatMap((d: any) => [d.stockIn, d.stockOut]))
+    : 100;
 
   return (
     <Card>
@@ -62,29 +75,51 @@ export function StockChart() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-64 flex items-end justify-between space-x-2 px-4">
-          {mockChartData.map((data, index) => (
-            <div key={index} className="flex flex-col items-center space-y-2 flex-1">
-              <div className="flex flex-col items-center space-y-1 w-full">
-                {(viewType === "in" || viewType === "both") && (
-                  <div
-                    className="w-8 bg-green-500 rounded-t transition-all duration-300 hover:bg-green-600"
-                    style={{ height: `${getBarHeight(data.stockIn, maxValue)}px` }}
-                    title={`Stok Masuk: ${data.stockIn}`}
-                  />
-                )}
-                {(viewType === "out" || viewType === "both") && (
-                  <div
-                    className="w-8 bg-red-400 rounded-t transition-all duration-300 hover:bg-red-500"
-                    style={{ height: `${getBarHeight(data.stockOut, maxValue)}px` }}
-                    title={`Stok Keluar: ${data.stockOut}`}
-                  />
-                )}
+        {!chartData || chartData.length === 0 ? (
+          <div className="h-64 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
               </div>
-              <span className="text-xs text-gray-500 font-medium">{data.day}</span>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Belum Ada Data Transaksi</h3>
+              <p className="text-sm text-gray-500">Mulai tambahkan transaksi stok untuk melihat grafik pergerakan</p>
             </div>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <div className="h-64 flex items-end justify-between space-x-3 px-4">
+            {chartData.map((data: any, index: number) => (
+              <div key={index} className="flex flex-col items-center space-y-2 flex-1">
+                <div className="flex flex-col items-center space-y-1 w-full relative">
+                  {(viewType === "in" || viewType === "both") && (
+                    <div className="relative group">
+                      <div
+                        className="w-10 bg-green-500 rounded-t-lg transition-all duration-300 hover:bg-green-600 shadow-sm"
+                        style={{ height: `${getBarHeight(data.stockIn, maxValue)}px` }}
+                      />
+                      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        Masuk: {data.stockIn}
+                      </div>
+                    </div>
+                  )}
+                  {(viewType === "out" || viewType === "both") && (
+                    <div className="relative group">
+                      <div
+                        className="w-10 bg-red-400 rounded-t-lg transition-all duration-300 hover:bg-red-500 shadow-sm"
+                        style={{ height: `${getBarHeight(data.stockOut, maxValue)}px` }}
+                      />
+                      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        Keluar: {data.stockOut}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <span className="text-xs text-gray-600 font-medium">{data.date}</span>
+              </div>
+            ))}
+          </div>
+        )}
         
         {/* Legend */}
         <div className="flex justify-center mt-4 space-x-6">
