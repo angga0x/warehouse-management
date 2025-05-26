@@ -1,4 +1,4 @@
-import { users, products, categories, variations, transactions, type User, type InsertUser, type Product, type InsertProduct, type Category, type InsertCategory, type Variation, type InsertVariation, type Transaction, type InsertTransaction } from "@shared/schema";
+import { users, products, categories, variations, transactions, systemSettings, type User, type InsertUser, type Product, type InsertProduct, type Category, type InsertCategory, type Variation, type InsertVariation, type Transaction, type InsertTransaction, type SystemSetting, type InsertSystemSetting } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, sql, asc } from "drizzle-orm";
 import session from "express-session";
@@ -47,6 +47,11 @@ export interface IStorage {
 
   // Top products
   getTopProducts(limit: number): Promise<{ productId: number; productName: string; category: string; totalSold: number }[]>;
+
+  // System settings
+  getSystemSetting(key: string): Promise<SystemSetting | undefined>;
+  setSystemSetting(key: string, value: string): Promise<SystemSetting>;
+  getSystemSettings(): Promise<SystemSetting[]>;
 
   sessionStore: session.SessionStore;
 }
@@ -383,6 +388,41 @@ export class DatabaseStorage implements IStorage {
       .groupBy(products.id, products.name, categories.name)
       .orderBy(desc(sql`coalesce(sum(${transactions.quantity}), 0)`))
       .limit(limit);
+  }
+
+  async getSystemSetting(key: string): Promise<SystemSetting | undefined> {
+    const [setting] = await db
+      .select()
+      .from(systemSettings)
+      .where(eq(systemSettings.key, key))
+      .limit(1);
+    return setting;
+  }
+
+  async setSystemSetting(key: string, value: string): Promise<SystemSetting> {
+    const existing = await this.getSystemSetting(key);
+    
+    if (existing) {
+      const [updated] = await db
+        .update(systemSettings)
+        .set({ value, updatedAt: new Date() })
+        .where(eq(systemSettings.key, key))
+        .returning();
+      return updated;
+    } else {
+      const [created] = await db
+        .insert(systemSettings)
+        .values({ key, value })
+        .returning();
+      return created;
+    }
+  }
+
+  async getSystemSettings(): Promise<SystemSetting[]> {
+    return await db
+      .select()
+      .from(systemSettings)
+      .orderBy(asc(systemSettings.key));
   }
 }
 
