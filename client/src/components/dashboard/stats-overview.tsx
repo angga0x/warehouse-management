@@ -2,8 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Package, AlertTriangle, ArrowUp, ArrowDown } from "lucide-react";
 
+interface Stats {
+  totalProducts: number;
+  lowStockCount: number;
+  todayStockIn: number;
+  todayStockOut: number;
+}
+
 export function StatsOverview() {
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats, isLoading } = useQuery<Stats>({
     queryKey: ["/api/dashboard/stats"],
   });
 
