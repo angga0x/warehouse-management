@@ -1,0 +1,67 @@
+AI Restock Analysis Error: AuthenticationError: 401 Incorrect API key provided: default_key. You can find your API key at https://platform.openai.com/account/api-keys.
+    at Function.generate (/home/runner/workspace/node_modules/openai/src/error.ts:76:14)
+    at OpenAI.makeStatusError (/home/runner/workspace/node_modules/openai/src/core.ts:462:21)
+    at OpenAI.makeRequest (/home/runner/workspace/node_modules/openai/src/core.ts:526:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async generateRestockRecommendations (/home/runner/workspace/server/ai.ts:84:22)
+    at async <anonymous> (/home/runner/workspace/server/routes.ts:275:31) {
+  status: 401,
+  headers: {
+    'alt-svc': 'h3=":443"; ma=86400',
+    'cf-cache-status': 'DYNAMIC',
+    'cf-ray': '945d07ee2fb180bb-BOM',
+    connection: 'keep-alive',
+    'content-length': '261',
+    'content-type': 'application/json; charset=utf-8',
+    date: 'Mon, 26 May 2025 11:46:15 GMT',
+    server: 'cloudflare',
+    'set-cookie': '__cf_bm=..vgNiEQqrpy4IlGunvqGaknOF9nOVoC3dTjQ3Vodys-1748259975-1.0.1.1-ITyVRgYRXUQ6y.aWYGGJFhgpOWvzTd8Ht5SF7vjyuYbFpKSkANtzC52vPhAjNXFI6AJF6cUx8EXmjX.3lrOQ5J4amqpLPj_A_Yc9UDDypyY; path=/; expires=Mon, 26-May-25 12:16:15 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=qPTi3w5zFZkKIHoBlDwrfE8BQWJVsSMBXwh5PzfZMzk-1748259975667-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    vary: 'Origin',
+    'x-content-type-options': 'nosniff',
+    'x-request-id': 'req_b83d9c7a64662e191cdf95ac17752f22'
+  },
+  request_id: 'req_b83d9c7a64662e191cdf95ac17752f22',
+  error: {
+    message: 'Incorrect API key provided: default_key. You can find your API key at https://platform.openai.com/account/api-keys.',
+    type: 'invalid_request_error',
+    param: null,
+    code: 'invalid_api_key'
+  },
+  code: 'invalid_api_key',
+  param: null,
+  type: 'invalid_request_error'
+}
+AI Analysis Error: AuthenticationError: 401 Incorrect API key provided: default_key. You can find your API key at https://platform.openai.com/account/api-keys.
+    at Function.generate (/home/runner/workspace/node_modules/openai/src/error.ts:76:14)
+    at OpenAI.makeStatusError (/home/runner/workspace/node_modules/openai/src/core.ts:462:21)
+    at OpenAI.makeRequest (/home/runner/workspace/node_modules/openai/src/core.ts:526:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async analyzeProductPerformance (/home/runner/workspace/server/ai.ts:29:22)
+    at async <anonymous> (/home/runner/workspace/server/routes.ts:265:24) {
+  status: 401,
+  headers: {
+    'alt-svc': 'h3=":443"; ma=86400',
+    'cf-cache-status': 'DYNAMIC',
+    'cf-ray': '945d07ee9dab3a1b-BOM',
+    connection: 'keep-alive',
+    'content-length': '261',
+    'content-type': 'application/json; charset=utf-8',
+    date: 'Mon, 26 May 2025 11:46:15 GMT',
+    server: 'cloudflare',
+    'set-cookie': '__cf_bm=1rG187T6eW1Sdv3rSY_NpRb3M5DdlVvKvHvIkAZ8Tkc-1748259975-1.0.1.1-dx5VUp0ndwfxDoQcxMaX_eiMHMiZKN96ZaAxirF95PWeXq3LSLTWKHvutmcqhIw5B9b6.YMZFRck.rWr1Pj8N4LNVRTR9WpsdJ4VUF6Po04; path=/; expires=Mon, 26-May-25 12:16:15 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=2gCF0nrDvraXFGgRlkybup5ex3b1D4iZmmeb9YBuMok-1748259975730-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    vary: 'Origin',
+    'x-content-type-options': 'nosniff',
+    'x-request-id': 'req_8f4151a542a31a48211e426f8445ca10'
+  },
+  request_id: 'req_8f4151a542a31a48211e426f8445ca10',
+  error: {
+    message: 'Incorrect API key provided: default_key. You can find your API key at https://platform.openai.com/account/api-keys.',
+    type: 'invalid_request_error',
+    param: null,
+    code: 'invalid_api_key'
+  },
+  code: 'invalid_api_key',
+  param: null,
+  type: 'invalid_request_error'

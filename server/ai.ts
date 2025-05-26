@@ -1,9 +1,15 @@
 import OpenAI from "openai";
+import { storage } from "./storage";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR || "default_key"
-});
+async function getOpenAIClient() {
+  const apiKeySetting = await storage.getSystemSetting('openaiApiKey');
+  const apiKey = apiKeySetting?.value || process.env.OPENAI_API_KEY || "default_key";
+  
+  return new OpenAI({ 
+    apiKey: apiKey
+  });
+}
 
 export async function analyzeProductPerformance(products: any[]): Promise<{
   topPerformers: any[];
@@ -12,6 +18,8 @@ export async function analyzeProductPerformance(products: any[]): Promise<{
   recommendations: string[];
 }> {
   try {
+    const openai = await getOpenAIClient();
+    
     const prompt = `
     Analyze the following product sales data and provide insights:
     
@@ -67,6 +75,8 @@ export async function generateRestockRecommendations(lowStockItems: any[]): Prom
   totalEstimatedCost: number;
 }> {
   try {
+    const openai = await getOpenAIClient();
+    
     const prompt = `
     Analyze these low stock items and provide restock recommendations:
     
