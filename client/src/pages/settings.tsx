@@ -58,6 +58,16 @@ export default function Settings() {
     queryKey: ["/api/categories"],
   });
 
+  const { data: products } = useQuery({
+    queryKey: ["/api/products"],
+  });
+
+  // Function to count products per category
+  const getProductCountByCategory = (categoryId: number) => {
+    if (!products) return 0;
+    return products.filter((product: any) => product.categoryId === categoryId).length;
+  };
+
   const categoryForm = useForm<CategoryForm>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
@@ -311,7 +321,14 @@ export default function Settings() {
                             <TableCell className="font-medium">{category.name}</TableCell>
                             <TableCell>{category.description || "-"}</TableCell>
                             <TableCell>
-                              <Badge variant="secondary">0 produk</Badge>
+                              {(() => {
+                                const productCount = getProductCountByCategory(category.id);
+                                return (
+                                  <Badge variant={productCount > 0 ? "default" : "secondary"}>
+                                    {productCount} produk
+                                  </Badge>
+                                );
+                              })()}
                             </TableCell>
                             <TableCell className="text-right">
                               <div className="flex justify-end space-x-2">
