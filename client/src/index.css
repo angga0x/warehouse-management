@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 11% 98%; /* #F5F7FA */
+  --foreground: 224 71% 4%; /* #0F172A */
+  --muted: 210 40% 96%; /* #F1F5F9 */
+  --muted-foreground: 215 16% 47%; /* #64748B */
+  --popover: 0 0% 100%; /* #FFFFFF */
+  --popover-foreground: 224 71% 4%; /* #0F172A */
+  --card: 0 0% 100%; /* #FFFFFF */
+  --card-foreground: 224 71% 4%; /* #0F172A */
+  --border: 214 32% 91%; /* #E2E8F0 */
+  --input: 214 32% 91%; /* #E2E8F0 */
+  --primary: 221 83% 53%; /* #2563EB */
+  --primary-foreground: 210 40% 98%; /* #F8FAFC */
+  --secondary: 210 40% 96%; /* #F1F5F9 */
+  --secondary-foreground: 222 84% 5%; /* #0F172A */
+  --accent: 210 40% 96%; /* #F1F5F9 */
+  --accent-foreground: 222 84% 5%; /* #0F172A */
+  --destructive: 0 84% 60%; /* #EF4444 */
+  --destructive-foreground: 210 40% 98%; /* #F8FAFC */
+  --ring: 221 83% 53%; /* #2563EB */
+  --radius: 0.5rem;
+  
+  /* Custom colors for the warehouse theme */
+  --primary-50: 219 100% 97%; /* #EFF6FF */
+  --primary-100: 214 95% 93%; /* #DBEAFE */
+  --primary-500: 221 83% 53%; /* #3B82F6 */
+  --primary-600: 221 83% 53%; /* #2563EB */
+  --primary-700: 230 81% 48%; /* #1D4ED8 */
+  
+  --success-50: 138 76% 97%; /* #ECFDF5 */
+  --success-500: 142 71% 45%; /* #059669 */
+  --success-600: 142 76% 36%; /* #047857 */
+  
+  --danger-50: 0 86% 97%; /* #FEF2F2 */
+  --danger-500: 0 84% 60%; /* #DC2626 */
+  --danger-600: 0 72% 51%; /* #B91C1C */
+  
+  --warning-50: 48 100% 96%; /* #FFFBEB */
+  --warning-500: 32 95% 44%; /* #D97706 */
+  --warning-600: 28 92% 38%; /* #C2410C */
+}
+
+.dark {
+  --background: 224 71% 4%; /* #0F172A */
+  --foreground: 210 40% 98%; /* #F8FAFC */
+  --muted: 223 47% 11%; /* #1E293B */
+  --muted-foreground: 215 20% 65%; /* #94A3B8 */
+  --popover: 224 71% 4%; /* #0F172A */
+  --popover-foreground: 210 40% 98%; /* #F8FAFC */
+  --card: 224 71% 4%; /* #0F172A */
+  --card-foreground: 210 40% 98%; /* #F8FAFC */
+  --border: 215 28% 17%; /* #334155 */
+  --input: 215 28% 17%; /* #334155 */
+  --primary: 217 91% 60%; /* #3B82F6 */
+  --primary-foreground: 222 84% 5%; /* #0F172A */
+  --secondary: 222 47% 11%; /* #1E293B */
+  --secondary-foreground: 210 40% 98%; /* #F8FAFC */
+  --accent: 216 34% 17%; /* #334155 */
+  --accent-foreground: 210 40% 98%; /* #F8FAFC */
+  --destructive: 0 63% 31%; /* #7F1D1D */
+  --destructive-foreground: 210 40% 98%; /* #F8FAFC */
+  --ring: 217 91% 60%; /* #3B82F6 */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+/* Custom utility classes */
+.text-primary-500 {
+  color: hsl(var(--primary));
+}
+
+.text-primary-600 {
+  color: hsl(221 83% 53%);
+}
+
+.text-primary-700 {
+  color: hsl(230 81% 48%);
+}
+
+.bg-primary-50 {
+  background-color: hsl(219 100% 97%);
+}
+
+.bg-primary-100 {
+  background-color: hsl(214 95% 93%);
+}
+
+.bg-primary-500 {
+  background-color: hsl(var(--primary));
+}
+
+.bg-primary-600 {
+  background-color: hsl(221 83% 53%);
+}
+
+.hover\:bg-primary-600:hover {
+  background-color: hsl(221 83% 53%);
+}
+
+.text-success-600 {
+  color: hsl(142 76% 36%);
+}
+
+.bg-success-100 {
+  background-color: hsl(138 76% 97%);
+}
+
+.text-danger-600 {
+  color: hsl(0 72% 51%);
+}
+
+.bg-danger-100 {
+  background-color: hsl(0 86% 97%);
+}
+
+.text-warning-600 {
+  color: hsl(28 92% 38%);
+}
+
+.bg-warning-100 {
+  background-color: hsl(48 100% 96%);
+}
+
+.text-orange-600 {
+  color: hsl(28 92% 38%);
+}
+
+.bg-orange-100 {
+  background-color: hsl(48 100% 96%);
+}
+
+.text-orange-800 {
+  color: hsl(28 76% 26%);
+}
+
+.text-green-600 {
+  color: hsl(142 76% 36%);
+}
+
+.bg-green-100 {
+  background-color: hsl(138 76% 97%);
+}
+
+.text-green-800 {
+  color: hsl(142 69% 23%);
+}
+
+.text-red-600 {
+  color: hsl(0 72% 51%);
+}
+
+.bg-red-100 {
+  background-color: hsl(0 86% 97%);
+}
+
+.text-red-800 {
+  color: hsl(0 67% 35%);
+}
+
+/* Chart and data visualization enhancements */
+.chart-bar {
+  transition: all 0.3s ease;
+}
+
+.chart-bar:hover {
+  opacity: 0.8;
+  transform: translateY(-2px);
+}
+
+/* Loading states */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+/* Smooth transitions for interactive elements */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Enhanced shadow utilities */
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+}
+
+/* Form enhancements */
+.form-input:focus {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Status indicators */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-success {
+  background-color: hsl(138 76% 97%);
+  color: hsl(142 76% 36%);
+}
+
+.status-warning {
+  background-color: hsl(48 100% 96%);
+  color: hsl(28 92% 38%);
+}
+
+.status-danger {
+  background-color: hsl(0 86% 97%);
+  color: hsl(0 72% 51%);
+}
