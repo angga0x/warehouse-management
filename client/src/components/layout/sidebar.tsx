@@ -21,6 +21,7 @@ const navigation = [
   { name: "Return & Cancel", href: "/returns", icon: RotateCcw },
   { name: "Laporan Excel", href: "/reports", icon: FileSpreadsheet },
   { name: "Analisis AI", href: "/analytics", icon: Brain },
+  { name: "Pengaturan", href: "/settings", icon: Settings },
 ];
 
 export function Sidebar() {

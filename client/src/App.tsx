@@ -12,6 +12,7 @@ import Transactions from "@/pages/transactions";
 import Returns from "@/pages/returns";
 import Reports from "@/pages/reports";
 import Analytics from "@/pages/analytics";
+import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
       <ProtectedRoute path="/returns" component={Returns} />
       <ProtectedRoute path="/reports" component={Reports} />
       <ProtectedRoute path="/analytics" component={Analytics} />
+      <ProtectedRoute path="/settings" component={Settings} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>

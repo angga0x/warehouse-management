@@ -37,10 +37,11 @@ export default function Returns() {
     queryKey: ["/api/variations"],
   });
 
-  const { data: returnTransactions, isLoading } = useQuery({
+  const { data: allTransactions, isLoading } = useQuery({
     queryKey: ["/api/transactions"],
-    select: (data: any) => data?.filter((t: any) => t.type === "return" || t.type === "cancel") || [],
   });
+
+  const returnTransactions = allTransactions?.filter((t: any) => t.type === "return" || t.type === "cancel") || [];
 
   const form = useForm<ReturnForm>({
     resolver: zodResolver(returnSchema),
@@ -305,11 +306,13 @@ export default function Returns() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {variations?.map((variation: any) => (
+                          {variations && variations.length > 0 ? variations.map((variation: any) => (
                             <SelectItem key={variation.id} value={variation.id.toString()}>
                               {variation.product?.name} - {variation.color} {variation.size} ({variation.sku})
                             </SelectItem>
-                          ))}
+                          )) : (
+                            <SelectItem value="no-data" disabled>Tidak ada variasi produk</SelectItem>
+                          )}
                         </SelectContent>
                       </Select>
                       <FormMessage />
