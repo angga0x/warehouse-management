@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
@@ -76,6 +76,10 @@ export default function Settings() {
     },
   });
 
+  const { data: systemSettings } = useQuery({
+    queryKey: ["/api/settings/system"],
+  });
+
   const systemForm = useForm<SystemForm>({
     resolver: zodResolver(systemSchema),
     defaultValues: {
@@ -84,6 +88,17 @@ export default function Settings() {
       stockAlertThreshold: 10,
     },
   });
+
+  // Update form when data loads
+  React.useEffect(() => {
+    if (systemSettings) {
+      systemForm.reset({
+        openaiApiKey: systemSettings.openaiApiKey === "***configured***" ? "***configured***" : "",
+        openaiModel: systemSettings.openaiModel || "gpt-4o",
+        stockAlertThreshold: parseInt(systemSettings.stockAlertThreshold) || 10,
+      });
+    }
+  }, [systemSettings, systemForm]);
 
   const createCategoryMutation = useMutation({
     mutationFn: async (data: CategoryForm) => {
@@ -185,6 +200,7 @@ export default function Settings() {
       return res.json();
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/settings/system"] });
       toast({
         title: "Berhasil",
         description: "Pengaturan sistem berhasil diperbarui",
@@ -453,7 +469,7 @@ export default function Settings() {
                               <FormControl>
                                 <Input
                                   type="password"
-                                  placeholder="sk-..."
+                                  placeholder={field.value === "***configured***" ? "API Key sudah dikonfigurasi" : "sk-..."}
                                   {...field}
                                 />
                               </FormControl>
@@ -554,19 +570,19 @@ export default function Settings() {
                     <div className="flex justify-between">
                       <span className="text-gray-600">Status AI:</span>
                       <Badge variant="default" className="bg-blue-100 text-blue-800">
-                        {systemForm.watch("openaiApiKey") ? "Terkonfigurasi" : "Belum Dikonfigurasi"}
+                        {systemSettings?.openaiApiKey === "***configured***" ? "Terkonfigurasi" : "Belum Dikonfigurasi"}
                       </Badge>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Model Aktif:</span>
                       <span className="font-medium text-sm">
-                        {systemForm.watch("openaiModel") || "Belum dipilih"}
+                        {systemSettings?.openaiModel || "Belum dipilih"}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Alert Stok:</span>
                       <span className="font-medium text-sm">
-                        {"< "}{systemForm.watch("stockAlertThreshold") || 10} unit
+                        {"< "}{systemSettings?.stockAlertThreshold || 10} unit
                       </span>
                     </div>
                   </CardContent>

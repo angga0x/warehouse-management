@@ -280,21 +280,41 @@ export function registerRoutes(app: Express): Server {
   });
 
   // System Settings
+  app.get("/api/settings/system", async (req, res) => {
+    try {
+      const settings = await storage.getSystemSettings();
+      const settingsMap = settings.reduce((acc, setting) => {
+        if (setting.key === 'openaiApiKey') {
+          acc[setting.key] = setting.value ? "***configured***" : "";
+        } else {
+          acc[setting.key] = setting.value;
+        }
+        return acc;
+      }, {} as Record<string, string>);
+      
+      res.json(settingsMap);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch system settings" });
+    }
+  });
+
   app.post("/api/settings/system", async (req, res) => {
     try {
       const { openaiApiKey, openaiModel, stockAlertThreshold } = req.body;
       
-      // Here you would normally save these settings to database or environment
-      // For now, we'll just validate and return success
       if (!openaiApiKey || !openaiModel || !stockAlertThreshold) {
         return res.status(400).json({ error: "All fields are required" });
       }
 
-      // In a real implementation, you'd save these to a settings table or config
+      // Save each setting to database
+      await storage.setSystemSetting('openaiApiKey', openaiApiKey);
+      await storage.setSystemSetting('openaiModel', openaiModel);
+      await storage.setSystemSetting('stockAlertThreshold', stockAlertThreshold.toString());
+
       res.json({ 
         message: "System settings updated successfully",
         settings: {
-          openaiApiKey: "***hidden***",
+          openaiApiKey: "***configured***",
           openaiModel,
           stockAlertThreshold
         }
