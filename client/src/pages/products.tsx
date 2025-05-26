@@ -7,8 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ProductForm } from "@/components/forms/product-form";
+import { VariationForm } from "@/components/forms/variation-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Plus, Search, Edit, Trash2, Package } from "lucide-react";
+import { Plus, Search, Edit, Trash2, Package, Settings } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,6 +17,9 @@ export default function Products() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [isVariationFormOpen, setIsVariationFormOpen] = useState(false);
+  const [editingVariation, setEditingVariation] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const { toast } = useToast();
 
   const { data: products, isLoading } = useQuery({
