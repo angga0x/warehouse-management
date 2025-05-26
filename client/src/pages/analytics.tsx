@@ -68,9 +68,9 @@ export default function Analytics() {
                       {performance?.topPerformers?.length > 0 ? (
                         <div className="space-y-2">
                           {performance.topPerformers.slice(0, 3).map((product: any, index: number) => (
-                            <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                              <span className="font-medium text-green-900">{product.productName || `Product ${index + 1}`}</span>
-                              <Badge className="bg-green-100 text-green-800">{product.totalSold || 0} terjual</Badge>
+                            <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-green-50 rounded-lg gap-2">
+                              <span className="font-medium text-green-900 flex-1 min-w-0 truncate">{product.productName || `Product ${index + 1}`}</span>
+                              <Badge className="bg-green-100 text-green-800 self-start sm:self-center">{product.totalSold || 0} terjual</Badge>
                             </div>
                           ))}
                         </div>
@@ -88,9 +88,9 @@ export default function Analytics() {
                       {performance?.underPerformers?.length > 0 ? (
                         <div className="space-y-2">
                           {performance.underPerformers.slice(0, 3).map((product: any, index: number) => (
-                            <div key={index} className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
-                              <span className="font-medium text-red-900">{product.productName || `Product ${index + 1}`}</span>
-                              <Badge variant="destructive">{product.totalSold || 0} terjual</Badge>
+                            <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-red-50 rounded-lg gap-2">
+                              <span className="font-medium text-red-900 flex-1 min-w-0 truncate">{product.productName || `Product ${index + 1}`}</span>
+                              <Badge variant="destructive" className="self-start sm:self-center">{product.totalSold || 0} terjual</Badge>
                             </div>
                           ))}
                         </div>
@@ -145,12 +145,12 @@ export default function Analytics() {
                       {restock?.urgentItems?.length > 0 ? (
                         <div className="space-y-2">
                           {restock.urgentItems.slice(0, 3).map((item: any, index: number) => (
-                            <div key={index} className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
-                              <div>
-                                <span className="font-medium text-red-900">{item.product?.name || `Item ${index + 1}`}</span>
-                                <p className="text-sm text-red-600">{item.color} {item.size}</p>
+                            <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-red-50 rounded-lg gap-2">
+                              <div className="flex-1 min-w-0">
+                                <span className="font-medium text-red-900 truncate block">{item.product?.name || `Item ${index + 1}`}</span>
+                                <p className="text-xs md:text-sm text-red-600">{item.color} {item.size}</p>
                               </div>
-                              <Badge variant="destructive">{item.stock} tersisa</Badge>
+                              <Badge variant="destructive" className="self-start sm:self-center">{item.stock} tersisa</Badge>
                             </div>
                           ))}
                         </div>
@@ -168,12 +168,12 @@ export default function Analytics() {
                       {restock?.mediumPriority?.length > 0 ? (
                         <div className="space-y-2">
                           {restock.mediumPriority.slice(0, 3).map((item: any, index: number) => (
-                            <div key={index} className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
-                              <div>
-                                <span className="font-medium text-orange-900">{item.product?.name || `Item ${index + 1}`}</span>
-                                <p className="text-sm text-orange-600">{item.color} {item.size}</p>
+                            <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-orange-50 rounded-lg gap-2">
+                              <div className="flex-1 min-w-0">
+                                <span className="font-medium text-orange-900 truncate block">{item.product?.name || `Item ${index + 1}`}</span>
+                                <p className="text-xs md:text-sm text-orange-600">{item.color} {item.size}</p>
                               </div>
-                              <Badge className="bg-orange-100 text-orange-800">{item.stock} tersisa</Badge>
+                              <Badge className="bg-orange-100 text-orange-800 self-start sm:self-center">{item.stock} tersisa</Badge>
                             </div>
                           ))}
                         </div>

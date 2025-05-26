@@ -26,17 +26,37 @@ export async function analyzeProductPerformance(products: any[]): Promise<{
     const model = await getOpenAIModel();
     
     const prompt = `
-    Analisis data penjualan produk berikut dan berikan wawasan:
+    Sebagai ahli analisis ritel Indonesia, analisis data produk berikut dan berikan wawasan komprehensif:
     
-    Products: ${JSON.stringify(products)}
+    Data Produk: ${JSON.stringify(products)}
     
-    Mohon berikan respons JSON dengan struktur berikut:
+    Berikan respons dalam format JSON dengan struktur berikut (pastikan SEMUA teks dalam bahasa Indonesia yang natural dan mudah dipahami):
     {
-      "topPerformers": [daftar 5 produk berkinerja terbaik dengan alasan dalam bahasa Indonesia],
-      "underPerformers": [daftar 5 produk berkinerja rendah dengan alasan dalam bahasa Indonesia],
-      "insights": [3-5 wawasan utama tentang pola penjualan dalam bahasa Indonesia],
-      "recommendations": [3-5 rekomendasi yang dapat ditindaklanjuti untuk meningkatkan penjualan dalam bahasa Indonesia]
+      "topPerformers": [
+        {
+          "productName": "nama produk",
+          "reason": "alasan kenapa produk ini berkinerja baik dalam 1-2 kalimat bahasa Indonesia"
+        }
+      ],
+      "underPerformers": [
+        {
+          "productName": "nama produk", 
+          "reason": "alasan kenapa produk ini kurang laku dalam 1-2 kalimat bahasa Indonesia"
+        }
+      ],
+      "insights": [
+        "Wawasan 1: analisis pola penjualan dalam bahasa Indonesia yang mudah dipahami",
+        "Wawasan 2: tren produk yang terlihat dari data",
+        "Wawasan 3: kesempatan yang bisa dimanfaatkan"
+      ],
+      "recommendations": [
+        "Rekomendasi 1: saran spesifik untuk meningkatkan penjualan",
+        "Rekomendasi 2: strategi yang bisa diterapkan segera",
+        "Rekomendasi 3: langkah jangka panjang untuk pertumbuhan"
+      ]
     }
+    
+    Pastikan semua teks menggunakan bahasa Indonesia yang natural dan sesuai konteks bisnis ritel di Indonesia.
     `;
 
     const response = await openai.chat.completions.create({
@@ -84,17 +104,35 @@ export async function generateRestockRecommendations(lowStockItems: any[]): Prom
     const model = await getOpenAIModel();
     
     const prompt = `
-    Analisis item stok rendah berikut dan berikan rekomendasi restock:
+    Sebagai ahli manajemen inventori Indonesia, analisis item stok rendah berikut dan berikan rekomendasi restock yang komprehensif:
     
-    Low Stock Items: ${JSON.stringify(lowStockItems)}
+    Data Stok Rendah: ${JSON.stringify(lowStockItems)}
     
-    Mohon berikan respons JSON dengan struktur berikut:
+    Berikan respons dalam format JSON dengan struktur berikut (pastikan SEMUA teks dalam bahasa Indonesia yang natural):
     {
-      "urgentItems": [item yang perlu direstock segera],
-      "mediumPriority": [item yang perlu direstock dalam waktu dekat],
-      "recommendations": [rekomendasi spesifik untuk setiap kategori dalam bahasa Indonesia],
-      "totalEstimatedCost": [estimasi total biaya untuk restock semua item]
+      "urgentItems": [
+        {
+          "productName": "nama produk",
+          "currentStock": "jumlah stok saat ini",
+          "reason": "alasan kenapa perlu restock segera dalam bahasa Indonesia"
+        }
+      ],
+      "mediumPriority": [
+        {
+          "productName": "nama produk",
+          "currentStock": "jumlah stok saat ini", 
+          "reason": "alasan kenapa bisa ditunda sedikit dalam bahasa Indonesia"
+        }
+      ],
+      "recommendations": [
+        "Saran 1: rekomendasi spesifik untuk manajemen stok yang efektif",
+        "Saran 2: strategi pengadaan yang optimal untuk bisnis",
+        "Saran 3: cara mencegah kehabisan stok di masa depan"
+      ],
+      "totalEstimatedCost": "estimasi biaya total dalam rupiah untuk restock semua item"
     }
+    
+    Pastikan semua analisis relevan dengan kondisi bisnis ritel di Indonesia dan menggunakan bahasa yang mudah dipahami.
     `;
 
     const response = await openai.chat.completions.create({
