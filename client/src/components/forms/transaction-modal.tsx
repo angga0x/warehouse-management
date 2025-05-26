@@ -97,17 +97,7 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle>Transaksi Stok Baru</DialogTitle>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleClose}
-              className="text-gray-400 hover:text-gray-500"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          <DialogTitle>Transaksi Stok Baru</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
