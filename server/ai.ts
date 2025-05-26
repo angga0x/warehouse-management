@@ -26,16 +26,16 @@ export async function analyzeProductPerformance(products: any[]): Promise<{
     const model = await getOpenAIModel();
     
     const prompt = `
-    Analyze the following product sales data and provide insights:
+    Analisis data penjualan produk berikut dan berikan wawasan:
     
     Products: ${JSON.stringify(products)}
     
-    Please provide a JSON response with the following structure:
+    Mohon berikan respons JSON dengan struktur berikut:
     {
-      "topPerformers": [list of top 5 performing products with reasons],
-      "underPerformers": [list of bottom 5 performing products with reasons],
-      "insights": [3-5 key insights about sales patterns],
-      "recommendations": [3-5 actionable recommendations for improving sales]
+      "topPerformers": [daftar 5 produk berkinerja terbaik dengan alasan dalam bahasa Indonesia],
+      "underPerformers": [daftar 5 produk berkinerja rendah dengan alasan dalam bahasa Indonesia],
+      "insights": [3-5 wawasan utama tentang pola penjualan dalam bahasa Indonesia],
+      "recommendations": [3-5 rekomendasi yang dapat ditindaklanjuti untuk meningkatkan penjualan dalam bahasa Indonesia]
     }
     `;
 
@@ -44,7 +44,7 @@ export async function analyzeProductPerformance(products: any[]): Promise<{
       messages: [
         {
           role: "system",
-          content: "You are a retail analytics expert. Analyze product performance data and provide actionable insights in JSON format."
+          content: "Anda adalah ahli analisis ritel. Analisis data performa produk dan berikan wawasan yang dapat ditindaklanjuti dalam format JSON. Selalu berikan respons dalam bahasa Indonesia."
         },
         {
           role: "user",
@@ -102,7 +102,7 @@ export async function generateRestockRecommendations(lowStockItems: any[]): Prom
       messages: [
         {
           role: "system",
-          content: "You are an inventory management expert. Analyze low stock data and provide prioritized restock recommendations in JSON format."
+          content: "Anda adalah ahli manajemen inventori. Analisis data stok rendah dan berikan rekomendasi restock yang diprioritaskan dalam format JSON. Selalu berikan respons dalam bahasa Indonesia."
         },
         {
           role: "user",

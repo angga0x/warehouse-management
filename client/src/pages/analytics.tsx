@@ -224,9 +224,14 @@ export default function Analytics() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {performance.recommendations.map((recommendation: string, index: number) => (
+                  {performance.recommendations.map((recommendation: any, index: number) => (
                     <div key={index} className="p-4 bg-purple-50 rounded-lg">
-                      <p className="text-sm text-purple-800">{recommendation}</p>
+                      <p className="text-sm text-purple-800">
+                        {typeof recommendation === 'string' 
+                          ? recommendation 
+                          : recommendation.recommendation || recommendation.text || JSON.stringify(recommendation)
+                        }
+                      </p>
                     </div>
                   ))}
                 </div>
