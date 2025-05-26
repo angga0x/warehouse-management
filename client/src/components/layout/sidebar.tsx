@@ -10,13 +10,15 @@ import {
   Brain, 
   Settings, 
   LogOut,
-  User
+  User,
+  RotateCcw
 } from "lucide-react";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: BarChart3 },
   { name: "Produk & Variasi", href: "/products", icon: Package },
   { name: "Transaksi", href: "/transactions", icon: ArrowRightLeft },
+  { name: "Return & Cancel", href: "/returns", icon: RotateCcw },
   { name: "Laporan Excel", href: "/reports", icon: FileSpreadsheet },
   { name: "Analisis AI", href: "/analytics", icon: Brain },
 ];
