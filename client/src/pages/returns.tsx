@@ -119,25 +119,38 @@ export default function Returns() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="min-h-full">
       <Sidebar />
       
-      <div className="flex-1 overflow-auto pl-64">
-        <div className="p-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Return & Cancel Produk</h1>
-            <p className="text-gray-600">Kelola return dan pembatalan produk</p>
+      <div className="lg:pl-64">
+        {/* Header */}
+        <div className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between px-4 sm:px-6 py-4 sm:py-0 gap-3 sm:gap-0">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Return & Cancel</h2>
+              <p className="text-sm text-gray-500">Kelola return dan pembatalan produk</p>
+            </div>
+            <Button 
+              onClick={() => setIsReturnFormOpen(true)}
+              className="bg-primary-500 hover:bg-primary-600 w-full sm:w-auto"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Return/Cancel Baru
+            </Button>
           </div>
+        </div>
 
+        {/* Content */}
+        <main className="p-3 sm:p-6">
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-4 sm:mb-8">
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-3 sm:p-6">
                 <div className="flex items-center">
-                  <RotateCcw className="h-8 w-8 text-blue-600" />
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Total Return</p>
-                    <p className="text-2xl font-bold text-gray-900">
+                  <RotateCcw className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+                  <div className="ml-2 sm:ml-4">
+                    <p className="text-xs sm:text-sm font-medium text-gray-600">Total Return</p>
+                    <p className="text-lg sm:text-2xl font-bold text-gray-900">
                       {returnTransactions?.filter((t: any) => t.type === "return").length || 0}
                     </p>
                   </div>
@@ -146,12 +159,12 @@ export default function Returns() {
             </Card>
 
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-3 sm:p-6">
                 <div className="flex items-center">
-                  <XCircle className="h-8 w-8 text-red-600" />
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Total Cancel</p>
-                    <p className="text-2xl font-bold text-gray-900">
+                  <XCircle className="h-6 w-6 sm:h-8 sm:w-8 text-red-600" />
+                  <div className="ml-2 sm:ml-4">
+                    <p className="text-xs sm:text-sm font-medium text-gray-600">Total Cancel</p>
+                    <p className="text-lg sm:text-2xl font-bold text-gray-900">
                       {returnTransactions?.filter((t: any) => t.type === "cancel").length || 0}
                     </p>
                   </div>
@@ -159,13 +172,13 @@ export default function Returns() {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="p-6">
+            <Card className="col-span-2 lg:col-span-1">
+              <CardContent className="p-3 sm:p-6">
                 <div className="flex items-center">
-                  <Calendar className="h-8 w-8 text-green-600" />
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Bulan Ini</p>
-                    <p className="text-2xl font-bold text-gray-900">
+                  <Calendar className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
+                  <div className="ml-2 sm:ml-4">
+                    <p className="text-xs sm:text-sm font-medium text-gray-600">Bulan Ini</p>
+                    <p className="text-lg sm:text-2xl font-bold text-gray-900">
                       {returnTransactions?.filter((t: any) => {
                         const transactionDate = new Date(t.createdAt);
                         const currentDate = new Date();
@@ -179,25 +192,20 @@ export default function Returns() {
             </Card>
           </div>
 
-          {/* Actions and Filters */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <div className="flex flex-col sm:flex-row gap-4 flex-1">
+          {/* Search and Filter */}
+          <Card className="mb-4 sm:mb-6">
+            <CardContent className="pt-4 sm:pt-6">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
                   placeholder="Cari produk atau SKU..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-full sm:w-64"
+                  className="pl-10 text-sm"
                 />
               </div>
-            </div>
-            
-            <Button onClick={() => setIsReturnFormOpen(true)}>
-              <Plus className="mr-2 h-4 w-4" />
-              Catat Return/Cancel
-            </Button>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Returns Table */}
           <Card>
@@ -219,65 +227,113 @@ export default function Returns() {
                   </p>
                 </div>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Tanggal</TableHead>
-                      <TableHead>Produk</TableHead>
-                      <TableHead>Variasi</TableHead>
-                      <TableHead>Tipe</TableHead>
-                      <TableHead>Jumlah</TableHead>
-                      <TableHead>Alasan</TableHead>
-                      <TableHead>Staff</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <>
+                  {/* Mobile View - Cards */}
+                  <div className="block lg:hidden space-y-3">
                     {filteredTransactions.map((transaction: any) => (
-                      <TableRow key={transaction.id}>
-                        <TableCell>
-                          {new Date(transaction.createdAt).toLocaleDateString("id-ID", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {transaction.variation?.product?.name || "Produk Tidak Diketahui"}
-                        </TableCell>
-                        <TableCell>
-                          <div className="text-sm">
-                            <span className="text-gray-600">
-                              {transaction.variation?.color && `${transaction.variation.color} `}
-                              {transaction.variation?.size && `${transaction.variation.size}`}
-                            </span>
-                            <br />
-                            <span className="font-mono text-xs text-gray-500">
-                              {transaction.variation?.sku}
-                            </span>
+                      <Card key={transaction.id} className="p-4">
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <Badge variant={getTypeBadgeVariant(transaction.type)} className="text-xs">
+                                  {getTypeLabel(transaction.type)}
+                                </Badge>
+                                <span className="text-xs text-gray-500">
+                                  {new Date(transaction.createdAt).toLocaleDateString("id-ID")}
+                                </span>
+                              </div>
+                              <h3 className="font-medium text-gray-900">
+                                {transaction.variation?.product?.name || "Produk Tidak Diketahui"}
+                              </h3>
+                              <p className="text-sm text-gray-500">
+                                {transaction.variation?.color && `${transaction.variation.color} `}
+                                {transaction.variation?.size && `${transaction.variation.size}`}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-medium">{Math.abs(transaction.quantity)} unit</div>
+                            </div>
                           </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={getTypeBadgeVariant(transaction.type)}>
-                            {getTypeLabel(transaction.type)}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{Math.abs(transaction.quantity)} unit</TableCell>
-                        <TableCell className="max-w-xs truncate">
-                          {transaction.notes || "-"}
-                        </TableCell>
-                        <TableCell>
-                          {transaction.user?.username || "System"}
-                        </TableCell>
-                      </TableRow>
+                          
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div>
+                              <span className="text-gray-500">Staff:</span>
+                              <div className="font-medium">{transaction.user?.username || "System"}</div>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">Alasan:</span>
+                              <div className="font-medium truncate">{transaction.notes || "-"}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </Card>
                     ))}
-                  </TableBody>
-                </Table>
+                  </div>
+
+                  {/* Desktop View - Table */}
+                  <div className="hidden lg:block overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Tanggal</TableHead>
+                          <TableHead>Produk</TableHead>
+                          <TableHead>Variasi</TableHead>
+                          <TableHead>Tipe</TableHead>
+                          <TableHead>Jumlah</TableHead>
+                          <TableHead>Alasan</TableHead>
+                          <TableHead>Staff</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredTransactions.map((transaction: any) => (
+                          <TableRow key={transaction.id}>
+                            <TableCell>
+                              {new Date(transaction.createdAt).toLocaleDateString("id-ID", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {transaction.variation?.product?.name || "Produk Tidak Diketahui"}
+                            </TableCell>
+                            <TableCell>
+                              <div className="text-sm">
+                                <span className="text-gray-600">
+                                  {transaction.variation?.color && `${transaction.variation.color} `}
+                                  {transaction.variation?.size && `${transaction.variation.size}`}
+                                </span>
+                                <br />
+                                <span className="font-mono text-xs text-gray-500">
+                                  {transaction.variation?.sku}
+                                </span>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant={getTypeBadgeVariant(transaction.type)}>
+                                {getTypeLabel(transaction.type)}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>{Math.abs(transaction.quantity)} unit</TableCell>
+                            <TableCell className="max-w-xs truncate">
+                              {transaction.notes || "-"}
+                            </TableCell>
+                            <TableCell>
+                              {transaction.user?.username || "System"}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>
-        </div>
+        </main>
       </div>
 
       {/* Return/Cancel Form Dialog */}

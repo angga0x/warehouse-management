@@ -56,17 +56,17 @@ export default function Transactions() {
     <div className="min-h-full">
       <Sidebar />
       
-      <div className="pl-64">
+      <div className="lg:pl-64">
         {/* Header */}
         <div className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
-          <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between px-4 sm:px-6 py-4 sm:py-0 gap-3 sm:gap-0">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Transaksi</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Transaksi</h2>
               <p className="text-sm text-gray-500">Riwayat transaksi stok masuk dan keluar</p>
             </div>
             <Button 
               onClick={() => setIsTransactionModalOpen(true)}
-              className="bg-primary-500 hover:bg-primary-600"
+              className="bg-primary-500 hover:bg-primary-600 w-full sm:w-auto"
             >
               <Plus className="mr-2 h-4 w-4" />
               Transaksi Baru
@@ -75,11 +75,11 @@ export default function Transactions() {
         </div>
 
         {/* Content */}
-        <main className="p-6">
+        <main className="p-3 sm:p-6">
           {/* Search and Filter */}
-          <Card className="mb-6">
-            <CardContent className="pt-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card className="mb-4 sm:mb-6">
+            <CardContent className="pt-4 sm:pt-6">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4">
                 {/* Search */}
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -87,52 +87,54 @@ export default function Transactions() {
                     placeholder="Cari transaksi..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 text-sm"
                   />
                 </div>
 
-                {/* Start Date */}
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="justify-start text-left font-normal">
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {startDate ? format(startDate, "dd/MM/yyyy") : "Tanggal Mulai"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={startDate}
-                      onSelect={setStartDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                {/* Date Range */}
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-1 sm:gap-0 sm:space-y-2 md:grid-cols-2 md:gap-2 md:space-y-0">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="justify-start text-left font-normal text-sm">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {startDate ? format(startDate, "dd/MM/yyyy") : "Mulai"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={startDate}
+                        onSelect={setStartDate}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
 
-                {/* End Date */}
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="justify-start text-left font-normal">
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {endDate ? format(endDate, "dd/MM/yyyy") : "Tanggal Akhir"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={endDate}
-                      onSelect={setEndDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="justify-start text-left font-normal text-sm">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {endDate ? format(endDate, "dd/MM/yyyy") : "Akhir"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={endDate}
+                        onSelect={setEndDate}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
 
                 {/* Type Filter */}
-                <div className="flex space-x-2">
+                <div className="flex space-x-1 sm:space-x-2">
                   <Button
                     variant={typeFilter === "all" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setTypeFilter("all")}
+                    className="flex-1 text-xs sm:text-sm"
                   >
                     Semua
                   </Button>
@@ -140,7 +142,7 @@ export default function Transactions() {
                     variant={typeFilter === "in" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setTypeFilter("in")}
-                    className="text-green-600 border-green-600 hover:bg-green-50"
+                    className="text-green-600 border-green-600 hover:bg-green-50 flex-1 text-xs sm:text-sm"
                   >
                     Masuk
                   </Button>
@@ -148,7 +150,7 @@ export default function Transactions() {
                     variant={typeFilter === "out" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setTypeFilter("out")}
-                    className="text-red-600 border-red-600 hover:bg-red-50"
+                    className="text-red-600 border-red-600 hover:bg-red-50 flex-1 text-xs sm:text-sm"
                   >
                     Keluar
                   </Button>
@@ -176,56 +178,113 @@ export default function Transactions() {
                   }
                 </div>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Tanggal</TableHead>
-                      <TableHead>Jenis</TableHead>
-                      <TableHead>Produk</TableHead>
-                      <TableHead>Variasi</TableHead>
-                      <TableHead>Jumlah</TableHead>
-                      <TableHead>User</TableHead>
-                      <TableHead>Catatan</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <>
+                  {/* Mobile View - Cards */}
+                  <div className="block lg:hidden space-y-3">
                     {filteredTransactions.map((transaction: any) => (
-                      <TableRow key={transaction.id}>
-                        <TableCell className="font-mono text-sm">
-                          {formatDate(transaction.createdAt)}
-                        </TableCell>
-                        <TableCell>
-                          {transaction.type === "in" ? (
-                            <Badge className="bg-green-100 text-green-800 flex items-center w-fit">
-                              <ArrowUp className="mr-1 h-3 w-3" />
-                              Stok Masuk
-                            </Badge>
-                          ) : (
-                            <Badge className="bg-red-100 text-red-800 flex items-center w-fit">
-                              <ArrowDown className="mr-1 h-3 w-3" />
-                              Stok Keluar
-                            </Badge>
-                          )}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {transaction.variation?.product?.name}
-                        </TableCell>
-                        <TableCell>
-                          {getVariationDisplay(transaction.variation)}
-                        </TableCell>
-                        <TableCell className="font-mono">
-                          <span className={transaction.type === "in" ? "text-green-600" : "text-red-600"}>
-                            {transaction.type === "in" ? "+" : "-"}{transaction.quantity}
-                          </span>
-                        </TableCell>
-                        <TableCell>{transaction.user?.name}</TableCell>
-                        <TableCell className="max-w-xs truncate">
-                          {transaction.notes || "-"}
-                        </TableCell>
-                      </TableRow>
+                      <Card key={transaction.id} className="p-4">
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                {transaction.type === "in" ? (
+                                  <Badge className="bg-green-100 text-green-800 flex items-center w-fit text-xs">
+                                    <ArrowUp className="mr-1 h-3 w-3" />
+                                    Masuk
+                                  </Badge>
+                                ) : (
+                                  <Badge className="bg-red-100 text-red-800 flex items-center w-fit text-xs">
+                                    <ArrowDown className="mr-1 h-3 w-3" />
+                                    Keluar
+                                  </Badge>
+                                )}
+                                <span className="font-mono text-xs text-gray-500">
+                                  {formatDate(transaction.createdAt)}
+                                </span>
+                              </div>
+                              <h3 className="font-medium text-gray-900 mt-1">
+                                {transaction.variation?.product?.name}
+                              </h3>
+                              <p className="text-sm text-gray-500">
+                                {getVariationDisplay(transaction.variation)}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <div className={`font-mono font-medium ${transaction.type === "in" ? "text-green-600" : "text-red-600"}`}>
+                                {transaction.type === "in" ? "+" : "-"}{transaction.quantity}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div>
+                              <span className="text-gray-500">User:</span>
+                              <div className="font-medium">{transaction.user?.name}</div>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">Catatan:</span>
+                              <div className="font-medium truncate">{transaction.notes || "-"}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </Card>
                     ))}
-                  </TableBody>
-                </Table>
+                  </div>
+
+                  {/* Desktop View - Table */}
+                  <div className="hidden lg:block overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Tanggal</TableHead>
+                          <TableHead>Jenis</TableHead>
+                          <TableHead>Produk</TableHead>
+                          <TableHead>Variasi</TableHead>
+                          <TableHead>Jumlah</TableHead>
+                          <TableHead>User</TableHead>
+                          <TableHead>Catatan</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredTransactions.map((transaction: any) => (
+                          <TableRow key={transaction.id}>
+                            <TableCell className="font-mono text-sm">
+                              {formatDate(transaction.createdAt)}
+                            </TableCell>
+                            <TableCell>
+                              {transaction.type === "in" ? (
+                                <Badge className="bg-green-100 text-green-800 flex items-center w-fit">
+                                  <ArrowUp className="mr-1 h-3 w-3" />
+                                  Stok Masuk
+                                </Badge>
+                              ) : (
+                                <Badge className="bg-red-100 text-red-800 flex items-center w-fit">
+                                  <ArrowDown className="mr-1 h-3 w-3" />
+                                  Stok Keluar
+                                </Badge>
+                              )}
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {transaction.variation?.product?.name}
+                            </TableCell>
+                            <TableCell>
+                              {getVariationDisplay(transaction.variation)}
+                            </TableCell>
+                            <TableCell className="font-mono">
+                              <span className={transaction.type === "in" ? "text-green-600" : "text-red-600"}>
+                                {transaction.type === "in" ? "+" : "-"}{transaction.quantity}
+                              </span>
+                            </TableCell>
+                            <TableCell>{transaction.user?.name}</TableCell>
+                            <TableCell className="max-w-xs truncate">
+                              {transaction.notes || "-"}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>
