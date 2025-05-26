@@ -123,19 +123,19 @@ export default function Reports() {
     <div className="min-h-full">
       <Sidebar />
       
-      <div className="pl-64">
+      <div className="lg:pl-64">
         {/* Header */}
         <div className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
-          <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between px-4 sm:px-6 py-4 sm:py-0 gap-3 sm:gap-0">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Laporan Excel</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Laporan Excel</h2>
               <p className="text-sm text-gray-500">Generate dan download laporan transaksi dalam format Excel</p>
             </div>
           </div>
         </div>
 
         {/* Content */}
-        <main className="p-6">
+        <main className="p-3 sm:p-6">
           <div className="max-w-4xl mx-auto">
             {/* Report Generator */}
             <Card>
@@ -149,7 +149,7 @@ export default function Reports() {
                 {/* Quick Date Ranges */}
                 <div>
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Rentang Cepat</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {quickDateRanges.map((range, index) => (
                       <Button
                         key={index}
