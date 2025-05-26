@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -98,6 +98,9 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle>Transaksi Stok Baru</DialogTitle>
+          <DialogDescription>
+            Tambah transaksi stok masuk atau keluar untuk produk
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
