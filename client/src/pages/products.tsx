@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ProductForm } from "@/components/forms/product-form";
 import { VariationForm } from "@/components/forms/variation-form";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Plus, Search, Edit, Trash2, Package, Settings } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -252,6 +252,9 @@ export default function Products() {
             <DialogTitle>
               {editingProduct ? "Edit Produk" : "Tambah Produk Baru"}
             </DialogTitle>
+            <DialogDescription>
+              {editingProduct ? "Ubah informasi produk yang sudah ada" : "Tambah produk baru ke dalam sistem inventori"}
+            </DialogDescription>
           </DialogHeader>
           <ProductForm 
             product={editingProduct}

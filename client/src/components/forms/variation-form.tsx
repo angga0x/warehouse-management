@@ -166,6 +166,9 @@ export function VariationForm({ variation, productId, isOpen, onClose, onSuccess
               </Button>
             )}
           </DialogTitle>
+          <DialogDescription>
+            {isEdit ? "Ubah detail variasi produk yang sudah ada" : "Tambah variasi baru dengan warna, ukuran, dan harga"}
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
