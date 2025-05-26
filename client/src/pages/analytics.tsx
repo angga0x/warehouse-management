@@ -34,7 +34,7 @@ export default function Analytics() {
             </div>
             <Button onClick={refreshAnalytics} variant="outline">
               <RefreshCw className="mr-2 h-4 w-4" />
-              Refresh Analysis
+              Perbarui Analisis
             </Button>
           </div>
         </div>
@@ -54,7 +54,7 @@ export default function Analytics() {
                 {performanceLoading ? (
                   <div className="text-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mx-auto"></div>
-                    <p className="mt-2 text-sm text-gray-500">Analyzing product performance...</p>
+                    <p className="mt-2 text-sm text-gray-500">Menganalisis performa produk...</p>
                   </div>
                 ) : (
                   <div className="space-y-6">
@@ -62,19 +62,19 @@ export default function Analytics() {
                     <div>
                       <h3 className="font-medium text-gray-900 mb-3 flex items-center">
                         <TrendingUp className="mr-2 h-4 w-4 text-green-500" />
-                        Top Performers
+                        Produk Terbaik
                       </h3>
                       {performance?.topPerformers?.length > 0 ? (
                         <div className="space-y-2">
                           {performance.topPerformers.slice(0, 3).map((product: any, index: number) => (
                             <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                               <span className="font-medium text-green-900">{product.productName || `Product ${index + 1}`}</span>
-                              <Badge className="bg-green-100 text-green-800">{product.totalSold || 0} sold</Badge>
+                              <Badge className="bg-green-100 text-green-800">{product.totalSold || 0} terjual</Badge>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-sm text-gray-500">No top performers data available</p>
+                        <p className="text-sm text-gray-500">Data produk terbaik tidak tersedia</p>
                       )}
                     </div>
 
@@ -82,25 +82,25 @@ export default function Analytics() {
                     <div>
                       <h3 className="font-medium text-gray-900 mb-3 flex items-center">
                         <TrendingDown className="mr-2 h-4 w-4 text-red-500" />
-                        Under Performers
+                        Produk Kurang Laku
                       </h3>
                       {performance?.underPerformers?.length > 0 ? (
                         <div className="space-y-2">
                           {performance.underPerformers.slice(0, 3).map((product: any, index: number) => (
                             <div key={index} className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
                               <span className="font-medium text-red-900">{product.productName || `Product ${index + 1}`}</span>
-                              <Badge variant="destructive">{product.totalSold || 0} sold</Badge>
+                              <Badge variant="destructive">{product.totalSold || 0} terjual</Badge>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-sm text-gray-500">No under performers data available</p>
+                        <p className="text-sm text-gray-500">Data produk kurang laku tidak tersedia</p>
                       )}
                     </div>
 
                     {/* Key Insights */}
                     <div>
-                      <h3 className="font-medium text-gray-900 mb-3">Key Insights</h3>
+                      <h3 className="font-medium text-gray-900 mb-3">Wawasan Utama</h3>
                       {performance?.insights?.length > 0 ? (
                         <ul className="space-y-2">
                           {performance.insights.map((insight: string, index: number) => (
@@ -111,7 +111,7 @@ export default function Analytics() {
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-sm text-gray-500">No insights available at the moment</p>
+                        <p className="text-sm text-gray-500">Wawasan tidak tersedia saat ini</p>
                       )}
                     </div>
                   </div>
@@ -131,7 +131,7 @@ export default function Analytics() {
                 {restockLoading ? (
                   <div className="text-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mx-auto"></div>
-                    <p className="mt-2 text-sm text-gray-500">Generating restock recommendations...</p>
+                    <p className="mt-2 text-sm text-gray-500">Menghasilkan rekomendasi restock...</p>
                   </div>
                 ) : (
                   <div className="space-y-6">
