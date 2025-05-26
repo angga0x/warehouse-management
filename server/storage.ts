@@ -1,6 +1,6 @@
 import { users, products, categories, variations, transactions, systemSettings, type User, type InsertUser, type Product, type InsertProduct, type Category, type InsertCategory, type Variation, type InsertVariation, type Transaction, type InsertTransaction, type SystemSetting, type InsertSystemSetting } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and, gte, lte, sql, asc } from "drizzle-orm";
+import { eq, desc, and, gte, lte, lt, sql, asc } from "drizzle-orm";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
@@ -405,6 +405,7 @@ export class DatabaseStorage implements IStorage {
       currentDate.setDate(currentDate.getDate() + i);
       const nextDate = new Date(currentDate);
       nextDate.setDate(nextDate.getDate() + 1);
+      nextDate.setHours(0, 0, 0, 0); // Set to beginning of next day
 
       const [stockInResult] = await db
         .select({ total: sql<number>`coalesce(sum(${transactions.quantity}), 0)` })
@@ -429,8 +430,8 @@ export class DatabaseStorage implements IStorage {
 
       chartData.push({
         date: dayName,
-        stockIn: stockInResult?.total || 0,
-        stockOut: stockOutResult?.total || 0,
+        stockIn: Number(stockInResult?.total) || 0,
+        stockOut: Number(stockOutResult?.total) || 0,
       });
     }
 
