@@ -24,24 +24,25 @@ export default function Analytics() {
     <div className="min-h-full">
       <Sidebar />
       
-      <div className="pl-64">
+      <div className="md:pl-64 pl-0">
         {/* Header */}
         <div className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
-          <div className="flex h-16 items-center justify-between px-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">Analisis AI</h2>
-              <p className="text-sm text-gray-500">Insight dan rekomendasi berbasis AI untuk optimasi gudang</p>
+          <div className="flex h-16 items-center justify-between px-4 md:px-6">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 truncate">Analisis AI</h2>
+              <p className="text-xs md:text-sm text-gray-500 truncate">Insight dan rekomendasi berbasis AI untuk optimasi gudang</p>
             </div>
-            <Button onClick={refreshAnalytics} variant="outline">
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Perbarui Analisis
+            <Button onClick={refreshAnalytics} variant="outline" size="sm" className="ml-4 flex-shrink-0">
+              <RefreshCw className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Perbarui Analisis</span>
+              <span className="sm:hidden">Perbarui</span>
             </Button>
           </div>
         </div>
 
         {/* Content */}
-        <main className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <main className="p-3 md:p-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
             {/* Product Performance Analysis */}
             <Card>
               <CardHeader>

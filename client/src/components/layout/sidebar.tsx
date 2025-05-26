@@ -1,6 +1,9 @@
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useState } from "react";
 import { 
   Warehouse, 
   BarChart3, 
@@ -11,7 +14,8 @@ import {
   Settings, 
   LogOut,
   User,
-  RotateCcw
+  RotateCcw,
+  Menu
 } from "lucide-react";
 
 const navigation = [
@@ -24,16 +28,27 @@ const navigation = [
   { name: "Pengaturan", href: "/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+// Mobile menu trigger component
+export function MobileMenuTrigger() {
+  return (
+    <Button variant="ghost" size="sm" className="md:hidden">
+      <Menu className="h-5 w-5" />
+    </Button>
+  );
+}
+
+// Sidebar content component (shared between desktop and mobile)
+function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
   const { user, logoutMutation } = useAuth();
   const [location] = useLocation();
 
   const handleLogout = () => {
     logoutMutation.mutate();
+    onItemClick?.();
   };
 
   return (
-    <div className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg border-r border-gray-200">
+    <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex h-16 items-center px-6 border-b border-gray-200">
         <div className="flex items-center">
@@ -58,7 +73,7 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="mt-4 px-3">
+      <nav className="flex-1 mt-4 px-3">
         <div className="space-y-1">
           {navigation.map((item) => {
             const isActive = location === item.href;
@@ -67,6 +82,7 @@ export function Sidebar() {
             return (
               <Link key={item.name} href={item.href}>
                 <div
+                  onClick={onItemClick}
                   className={`
                     group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer
                     ${isActive
@@ -102,6 +118,32 @@ export function Sidebar() {
           </div>
         </div>
       </nav>
+    </div>
+  );
+}
+
+export function Sidebar() {
+  const isMobile = useIsMobile();
+  const [isOpen, setIsOpen] = useState(false);
+
+  if (isMobile) {
+    return (
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetTrigger asChild>
+          <Button variant="ghost" size="sm" className="fixed top-4 left-4 z-50 md:hidden">
+            <Menu className="h-5 w-5" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-64 p-0">
+          <SidebarContent onItemClick={() => setIsOpen(false)} />
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
+  return (
+    <div className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg border-r border-gray-200">
+      <SidebarContent />
     </div>
   );
 }
