@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 import { storage } from "./storage";
 
-// the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 async function getOpenAIClient() {
   const apiKeySetting = await storage.getSystemSetting('openaiApiKey');
   const apiKey = apiKeySetting?.value || process.env.OPENAI_API_KEY || "default_key";
@@ -9,6 +8,11 @@ async function getOpenAIClient() {
   return new OpenAI({ 
     apiKey: apiKey
   });
+}
+
+async function getOpenAIModel() {
+  const modelSetting = await storage.getSystemSetting('openaiModel');
+  return modelSetting?.value || "gpt-4o"; // default to gpt-4o if no model is set
 }
 
 export async function analyzeProductPerformance(products: any[]): Promise<{
@@ -19,6 +23,7 @@ export async function analyzeProductPerformance(products: any[]): Promise<{
 }> {
   try {
     const openai = await getOpenAIClient();
+    const model = await getOpenAIModel();
     
     const prompt = `
     Analyze the following product sales data and provide insights:
@@ -35,7 +40,7 @@ export async function analyzeProductPerformance(products: any[]): Promise<{
     `;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: model,
       messages: [
         {
           role: "system",
@@ -76,6 +81,7 @@ export async function generateRestockRecommendations(lowStockItems: any[]): Prom
 }> {
   try {
     const openai = await getOpenAIClient();
+    const model = await getOpenAIModel();
     
     const prompt = `
     Analyze these low stock items and provide restock recommendations:
@@ -92,7 +98,7 @@ export async function generateRestockRecommendations(lowStockItems: any[]): Prom
     `;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: model,
       messages: [
         {
           role: "system",
