@@ -93,14 +93,6 @@ export function Sidebar() {
               variant="ghost"
               className="w-full justify-start text-gray-700 hover:bg-gray-50"
               size="sm"
-            >
-              <Settings className="mr-3 h-4 w-4 text-gray-400" />
-              Pengaturan
-            </Button>
-            <Button
-              variant="ghost"
-              className="w-full justify-start text-gray-700 hover:bg-gray-50"
-              size="sm"
               onClick={handleLogout}
               disabled={logoutMutation.isPending}
             >

@@ -190,10 +190,10 @@ export default function Settings() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="min-h-full">
       <Sidebar />
       
-      <div className="flex-1 overflow-auto">
+      <div className="pl-64">
         <div className="p-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Pengaturan Sistem</h1>
