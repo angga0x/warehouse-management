@@ -10,7 +10,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Trash2, Users, Tag, Building2, Save } from "lucide-react";
+import { Plus, Edit, Trash2, Users, Tag, Building2, Save, Brain, Key } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -38,7 +39,14 @@ const profileSchema = z.object({
   path: ["confirmPassword"],
 });
 
+const systemSchema = z.object({
+  openaiApiKey: z.string().min(1, "API Key OpenAI wajib diisi"),
+  openaiModel: z.string().min(1, "Model OpenAI wajib dipilih"),
+  stockAlertThreshold: z.number().min(1, "Batas stok minimal 1"),
+});
+
 type ProfileForm = z.infer<typeof profileSchema>;
+type SystemForm = z.infer<typeof systemSchema>;
 
 export default function Settings() {
   const [isCategoryFormOpen, setIsCategoryFormOpen] = useState(false);
@@ -65,6 +73,15 @@ export default function Settings() {
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
+    },
+  });
+
+  const systemForm = useForm<SystemForm>({
+    resolver: zodResolver(systemSchema),
+    defaultValues: {
+      openaiApiKey: "",
+      openaiModel: "gpt-4o",
+      stockAlertThreshold: 10,
     },
   });
 
@@ -162,6 +179,26 @@ export default function Settings() {
     },
   });
 
+  const updateSystemMutation = useMutation({
+    mutationFn: async (data: SystemForm) => {
+      const res = await apiRequest("POST", "/api/settings/system", data);
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Berhasil",
+        description: "Pengaturan sistem berhasil diperbarui",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Gagal",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const onCategorySubmit = (data: CategoryForm) => {
     if (editingCategory) {
       updateCategoryMutation.mutate(data);
@@ -172,6 +209,10 @@ export default function Settings() {
 
   const onProfileSubmit = (data: ProfileForm) => {
     updateProfileMutation.mutate(data);
+  };
+
+  const onSystemSubmit = (data: SystemForm) => {
+    updateSystemMutation.mutate(data);
   };
 
   const handleEditCategory = (category: any) => {
@@ -388,7 +429,113 @@ export default function Settings() {
 
             {/* System Tab */}
             <TabsContent value="system">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* OpenAI Configuration */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Brain className="mr-2 h-5 w-5" />
+                      Konfigurasi AI Analytics
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Form {...systemForm}>
+                      <form onSubmit={systemForm.handleSubmit(onSystemSubmit)} className="space-y-4">
+                        <FormField
+                          control={systemForm.control}
+                          name="openaiApiKey"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center">
+                                <Key className="mr-2 h-4 w-4" />
+                                API Key OpenAI
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="password"
+                                  placeholder="sk-..."
+                                  {...field}
+                                />
+                              </FormControl>
+                              <div className="text-xs text-gray-500">
+                                Dapatkan API key dari{" "}
+                                <a 
+                                  href="https://platform.openai.com/api-keys" 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-blue-600 hover:underline"
+                                >
+                                  OpenAI Platform
+                                </a>
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={systemForm.control}
+                          name="openaiModel"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Model OpenAI</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Pilih model OpenAI" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="gpt-4o">GPT-4o (Recommended)</SelectItem>
+                                  <SelectItem value="gpt-4o-mini">GPT-4o Mini (Faster)</SelectItem>
+                                  <SelectItem value="gpt-4-turbo">GPT-4 Turbo</SelectItem>
+                                  <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo (Economical)</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <div className="text-xs text-gray-500">
+                                GPT-4o memberikan analisis terbaik, GPT-4o Mini lebih cepat dan hemat biaya
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={systemForm.control}
+                          name="stockAlertThreshold"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Batas Alert Stok Rendah</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  placeholder="10"
+                                  {...field}
+                                  onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                />
+                              </FormControl>
+                              <div className="text-xs text-gray-500">
+                                Alert akan muncul ketika stok produk dibawah angka ini
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Button 
+                          type="submit" 
+                          className="w-full"
+                          disabled={updateSystemMutation.isPending}
+                        >
+                          <Save className="mr-2 h-4 w-4" />
+                          {updateSystemMutation.isPending ? "Menyimpan..." : "Simpan Konfigurasi"}
+                        </Button>
+                      </form>
+                    </Form>
+                  </CardContent>
+                </Card>
+
+                {/* System Information */}
                 <Card>
                   <CardHeader>
                     <CardTitle>Informasi Sistem</CardTitle>
@@ -405,30 +552,23 @@ export default function Settings() {
                       </Badge>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">AI Analytics:</span>
+                      <span className="text-gray-600">Status AI:</span>
                       <Badge variant="default" className="bg-blue-100 text-blue-800">
-                        OpenAI GPT-4o
+                        {systemForm.watch("openaiApiKey") ? "Terkonfigurasi" : "Belum Dikonfigurasi"}
                       </Badge>
                     </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Pengaturan Stok</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Minimum Stok Default:</span>
-                      <Input className="w-20" defaultValue="10" type="number" />
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Model Aktif:</span>
+                      <span className="font-medium text-sm">
+                        {systemForm.watch("openaiModel") || "Belum dipilih"}
+                      </span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Alert Stok Rendah:</span>
-                      <Badge variant="secondary">Aktif</Badge>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Alert Stok:</span>
+                      <span className="font-medium text-sm">
+                        {"< "}{systemForm.watch("stockAlertThreshold") || 10} unit
+                      </span>
                     </div>
-                    <Button size="sm" className="w-full">
-                      Simpan Pengaturan
-                    </Button>
                   </CardContent>
                 </Card>
               </div>

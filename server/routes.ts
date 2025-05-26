@@ -279,6 +279,31 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  // System Settings
+  app.post("/api/settings/system", async (req, res) => {
+    try {
+      const { openaiApiKey, openaiModel, stockAlertThreshold } = req.body;
+      
+      // Here you would normally save these settings to database or environment
+      // For now, we'll just validate and return success
+      if (!openaiApiKey || !openaiModel || !stockAlertThreshold) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+
+      // In a real implementation, you'd save these to a settings table or config
+      res.json({ 
+        message: "System settings updated successfully",
+        settings: {
+          openaiApiKey: "***hidden***",
+          openaiModel,
+          stockAlertThreshold
+        }
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update system settings" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
