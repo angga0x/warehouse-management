@@ -106,7 +106,7 @@ export default function Analytics() {
                           {performance.insights.map((insight: string, index: number) => (
                             <li key={index} className="text-sm text-gray-600 flex items-start">
                               <span className="inline-block w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                              {insight}
+                              {typeof insight === 'string' ? insight : JSON.stringify(insight)}
                             </li>
                           ))}
                         </ul>
@@ -189,7 +189,7 @@ export default function Analytics() {
                           {restock.recommendations.map((recommendation: string, index: number) => (
                             <li key={index} className="text-sm text-gray-600 flex items-start">
                               <span className="inline-block w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                              {recommendation}
+                              {typeof recommendation === 'string' ? recommendation : JSON.stringify(recommendation)}
                             </li>
                           ))}
                         </ul>
